@@ -124,6 +124,7 @@ impl Default for Program {
 mod tests {
     use super::*;
     use crate::serde::deserialize_program::{ApTracking, FlowTrackingData};
+    use crate::utils::load_program;
     use crate::utils::test_utils::mayberelocatable;
     use felt::felt_str;
     use num_traits::Zero;
@@ -297,7 +298,7 @@ mod tests {
             #[cfg(feature = "std")]
             "cairo_programs/manually_compiled/valid_program_a.json",
             #[cfg(not(feature = "std"))]
-            "cairo_programs/manually_compiled/valid_program_a.json",
+            "../../cairo_programs/manually_compiled/valid_program_a.json",
             Some("main"),
         );
 
@@ -380,8 +381,11 @@ mod tests {
     #[test]
     fn deserialize_program_without_entrypoint_test() {
         let program = load_program(
+            #[cfg(feature = "std")]
             "cairo_programs/manually_compiled/valid_program_a.json",
-            None,
+            #[cfg(not(feature = "std"))]
+            "../../cairo_programs/manually_compiled/valid_program_a.json",
+            Some("main"),
         );
 
         let builtins: Vec<String> = Vec::new();
@@ -478,7 +482,10 @@ mod tests {
     #[test]
     fn deserialize_program_constants_test() {
         let program = load_program(
+            #[cfg(feature = "std")]
             "cairo_programs/manually_compiled/deserialize_constant_test.json",
+            #[cfg(not(feature = "std"))]
+            "../../cairo_programs/manually_compiled/deserialize_constant_test.json",
             Some("main"),
         );
 
